@@ -38,7 +38,7 @@
     
     //view3
     PageBViewController* pageB = [self.storyboard instantiateViewControllerWithIdentifier:@"PageB"];
-    [self addChildViewController:pageB];
+//    [self addChildViewController:pageB];
     
     
     
@@ -49,8 +49,12 @@
     
     [itemViews addObject:view1];
     [itemViews addObject:pageA.tableView];
-    [itemViews addObject:pageB.view];
-    [itemViews addObject:view4];
+    [itemViews addObject:pageA.tableView];
+    [itemViews addObject:pageA.tableView];
+//    [itemViews addObject:pageB.view];
+//    [itemViews addObject:view4];
+    
+    
     
     [itemNames addObject:@"item01"];
     [itemNames addObject:@"item02"];
@@ -58,7 +62,9 @@
     [itemNames addObject:@"item04"];
     
     [self setItemNames:itemNames itemViews:itemViews];
-        [self setMaxItemNumbers:3];
+    [self setMaxItemNumbers:3];
+    
+
     
 }
 

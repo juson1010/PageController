@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class  MenuBarCollection;
 @interface PageATableViewController : UITableViewController
+
 
 @end

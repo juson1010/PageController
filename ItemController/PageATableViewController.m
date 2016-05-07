@@ -8,13 +8,19 @@
 
 #import "PageATableViewController.h"
 #import "PageATableViewCell.h"
+
+#import "MenuBarCollection.h"
 @interface PageATableViewController ()
 
 @end
 
 static NSString* const REUSEIDENTIFIER = @"PageACell";
 
-@implementation PageATableViewController
+@implementation PageATableViewController{
+    
+    NSString* _selectedItemIndex;
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,13 +53,27 @@ static NSString* const REUSEIDENTIFIER = @"PageACell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PageATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSEIDENTIFIER forIndexPath:indexPath];
-    
-    cell.lblRow.text =[NSString stringWithFormat:@"lblRow-%ld",(long)indexPath.row ];
+   
+    cell.lblRow.text =[NSString stringWithFormat:@"lblRow-%ld selectedItem %@",(long)indexPath.row,_selectedItemIndex ];
     
     return cell;
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+    
+    if ([keyPath isEqualToString:@"selectedItemIndex"]) {
+        NSLog(@"Page A index now is %@ ",[change objectForKey:NSKeyValueChangeNewKey]);
+    
+        _selectedItemIndex =  [NSString stringWithFormat:@"%@",[change objectForKey:NSKeyValueChangeNewKey]];
+        
+        [self.tableView reloadData];
+    }
+    
+    
 
+    
+    
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

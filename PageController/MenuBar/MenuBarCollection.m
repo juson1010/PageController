@@ -18,6 +18,7 @@ static NSString * const reuseIdentifier = @"MenuBarCell";
     
 
     int _maxItemNumbers;
+
         
 }
 
@@ -26,7 +27,7 @@ static NSString * const reuseIdentifier = @"MenuBarCell";
    
     self = [super init];
     if (self) {
-        
+
         [self initCollectionView:view];
         self.scrollView = contentScrollView;
         
@@ -52,6 +53,14 @@ static NSString * const reuseIdentifier = @"MenuBarCell";
     
      MenuCellCollectionViewCell *cell = (MenuCellCollectionViewCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
     
+    
+    CGFloat screenWidth = _scrollView.frame.size.width;
+    CGFloat screenHeight = _scrollView.frame.size.height;
+    if (_scrollView != nil) {
+        UIView* tmpView = _itemViews[index];
+        tmpView.frame = CGRectMake(screenWidth*index, 0.0f, screenWidth, screenHeight);
+    }
+
 
     [cell setHighlightSelection:YES];
 
@@ -111,9 +120,13 @@ static NSString * const reuseIdentifier = @"MenuBarCell";
     
     self.selectedItemIndex = indexPath.row;//must before cellForItem..
     MenuCellCollectionViewCell *cell = (MenuCellCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    CGFloat screenWidth = _scrollView.frame.size.width;
+    CGFloat screenHeight = _scrollView.frame.size.height;
     [cell setHighlightSelection:YES];
     if (_scrollView != nil) {
-//        NSLog(@"contentOffSet  %f",_scrollView.frame.size.width*indexPath.row);
+        UIView* tmpView = _itemViews[indexPath.row];
+        tmpView.frame = CGRectMake(screenWidth*indexPath.row, 0.0f, screenWidth, screenHeight);
+        
         [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width*indexPath.row, 0.0f)];
     }
     

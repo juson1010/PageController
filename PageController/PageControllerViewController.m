@@ -23,7 +23,7 @@
     
     
     
-    MenuBarCollection* _menuBar;
+   
     UICollectionView* _menuBarCollectionView;
     UIScrollView* _contentScrollView;
     int _preIndex;
@@ -47,6 +47,11 @@
     }
     
     [_menuBar setMaxItemNumbers:_maxItemNumbers];
+    
+    for (UIViewController* item in [self childViewControllers]) {
+        
+        [self addObserver:item forKeyPath:@"selectedItemIndex" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
+    }
     
     
 }
@@ -84,17 +89,30 @@
     int index = 0;
     CGFloat screenWidth = self.view.frame.size.width;
     CGFloat screenHeight = self.view.frame.size.height;
-    for (UIView* curView in _itemViews) {
-        curView.frame = CGRectMake(screenWidth*index, 0.0f, screenWidth, screenHeight);
-        [_contentScrollView addSubview:curView];
-        index++;
+    if (_itemViews.count < 1) {
+        return;
     }
-    
+    UIView* preView = nil;
+    for (UIView* curView in _itemViews) {
+        if (preView != curView) {
+            curView.frame = CGRectMake(screenWidth*index, 0.0f, screenWidth, screenHeight);
+            [_contentScrollView addSubview:curView];
+        }
+       
+        index++;
+        preView = curView;
+                
+
+    }
+    preView = [[UIView alloc] init];
+    preView.backgroundColor = [UIColor whiteColor];
+    preView.frame =  CGRectMake(screenWidth*index, 0.0f, screenWidth, screenHeight);
+    [_contentScrollView addSubview:preView];
     
     [self.view addSubview:_contentScrollView];
     
-    
 }
+
 -(void) initMenuBar{
     
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -106,9 +124,11 @@
     _menuBar = [[MenuBarCollection alloc] initWithMenuBar:_menuBarCollectionView and:_contentScrollView];
     
     [self.view addSubview:_menuBar.collectionView];
-    _menuBar.itemNames = [[NSArray  alloc] initWithArray:_itemNames];
+    _menuBar.itemNames = [[NSArray alloc] initWithArray:_itemNames];
+    _menuBar.itemViews = [[NSArray alloc] initWithArray:_itemViews];
     
 }
+
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -120,18 +140,24 @@
     int index =  (int) roundf(offset / screenWidth);
     //    NSLog(@"offset %f",offset);
     //    _CQX_index += incre;
+    
+    
     if (_preIndex != index) {
         
         [_menuBar setDeSelectItemAtIndex:_preIndex];
         _preIndex = index;
+     
         
         if (index+1 >= _maxItemNumbers) {
             [_menuBar.collectionView setContentOffset:CGPointMake(_menuBar.itemWidth*(index+1-_maxItemNumbers), 0.0f)];
             //            NSLog(@"content off set x : %f",_menuBar.itemWidth*(index+1-_maxItemNumbers));
         }
-        
+       
         [_menuBar setSelectItemAtIndex:index];
-        
+
+//        _selectedItemIndex = index;
+        NSString* indexStr = [NSString stringWithFormat:@"%d",index];
+        [self setValue:indexStr forKey:@"selectedItemIndex"];
         
     }
     

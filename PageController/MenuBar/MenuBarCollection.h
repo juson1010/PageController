@@ -14,6 +14,7 @@
 @property (nonatomic ,readonly) CGFloat itemHeight;
 
 @property (nonatomic,copy) NSArray* itemNames;
+@property (nonatomic,copy) NSArray* itemViews;
 @property (nonatomic,strong) UICollectionView* collectionView;
 @property (nonatomic,weak) UIScrollView* scrollView;
 @property (nonatomic,assign)NSInteger selectedItemIndex;
