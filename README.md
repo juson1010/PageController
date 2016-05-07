@@ -1,9 +1,14 @@
 # PageController
 
-1.
-@interface ViewController :PageControllerViewController
+
+
+
+1.copy PageController/PageController
 
 2.
+@interface ViewController :PageControllerViewController
+
+3.
 //.m
 
 - (void)viewDidLoad {
