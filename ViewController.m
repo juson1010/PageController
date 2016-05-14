@@ -61,7 +61,7 @@
     [itemNames addObject:@"item03"];
     [itemNames addObject:@"item04"];
     
-    [self setItemNames:itemNames itemViews:itemViews];
+    [self initWithItemNames:itemNames itemViews:itemViews];
     [self setMaxItemNumbers:3];
     
 

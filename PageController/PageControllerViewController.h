@@ -16,7 +16,8 @@
 @property (nonatomic , assign)int maxItemNumbers;
 @property (nonatomic ,strong) MenuBarCollection* menuBar;
 
--(void) setItemNames:(NSArray*)itemNames itemViews:(NSArray*)itemViews;
+-(void) initWithItemNames:(NSArray*)itemNames itemViews:(NSArray*)itemViews;
 -(void) setMaxItemNumbers:(int)numbers;
-
+-(void) setMenuBarScrollEnable:(BOOL)enable;
+-(void) setMenuBarBackGroundColor:(UIColor*)color;
 @end
