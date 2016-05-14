@@ -73,3 +73,6 @@
     }
     
 }
+
+
+5.   self.navigationController.navigationBar.hidden = YES;  //if necessary
