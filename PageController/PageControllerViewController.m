@@ -72,8 +72,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     
     [_menuBar setDeSelectItemAtIndex:_preIndex];
-    int index = 0;
-    _preIndex = index;
+    int index = _preIndex;
+    //    _preIndex = index;
     
     
     if (index+1 >= _maxItemNumbers) {
@@ -86,7 +86,7 @@
     //        _selectedItemIndex = index;
     NSString* indexStr = [NSString stringWithFormat:@"%d",index];
     [self setValue:indexStr forKey:@"selectedItemIndex"];
-
+    
 }
 -(void) initModels{
     
@@ -98,7 +98,10 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     
-    [_menuBar setSelectItemAtIndex:0];
+    if (_selectedItemIndex == 0) {
+        [_menuBar setSelectItemAtIndex:0];
+    }
+    
 }
 
 -(void) initContentScrollView{
@@ -143,7 +146,7 @@
     [_contentScrollView addSubview:preView];
     
     [self.view addSubview:_contentScrollView];
-
+    
     
 }
 
@@ -158,7 +161,7 @@
     _menuBar = [[MenuBarCollection alloc] initWithMenuBar:_menuBarCollectionView and:_contentScrollView];
     
     [self.view addSubview:_menuBar.collectionView];
-   
+    
     [self menuBarAddItemsNameAndViews];
     
 }
@@ -176,6 +179,7 @@
     float offset = _contentScrollView.contentOffset.x;
     
     int width = (int)self.view.frame.size.width;
+    
     if ((int)offset%width != 0) {
         
         [_contentScrollView setContentOffset:CGPointMake(offset, 0.0f)];
@@ -190,16 +194,16 @@
         
         [_menuBar setDeSelectItemAtIndex:_preIndex];
         _preIndex = index;
-     
+        
         
         if (index+1 >= _maxItemNumbers) {
             [_menuBar.collectionView setContentOffset:CGPointMake(_menuBar.itemWidth*(index+1-_maxItemNumbers), 0.0f)];
             //            NSLog(@"content off set x : %f",_menuBar.itemWidth*(index+1-_maxItemNumbers));
         }
-       
+        
         [_menuBar setSelectItemAtIndex:index];
-
-//        _selectedItemIndex = index;
+        
+        //        _selectedItemIndex = index;
         NSString* indexStr = [NSString stringWithFormat:@"%d",index];
         [self setValue:indexStr forKey:@"selectedItemIndex"];
         
